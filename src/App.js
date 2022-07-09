@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import useSound from "use-sound";
+import sound from "./assets/sound.mp3";
+import Speech from 'react-speech';
 
-function App() {
+const App = () => {
+  const [play] = useSound(sound)
+  const [usertime, setTime] = useState('');
+  var current = new Date();
+
+  function playSound(time){
+    const interval = 60000*time;
+    console.log(`timer set to ${interval}`)
+    if(interval >= 1000){
+      setInterval(() => {
+        play()
+        console.log(current.toLocaleTimeString())
+      }, interval);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <input type='number' onChange={(e) => {setTime(e.target.value)}}></input>
+      <button onClick={() => playSound(usertime)}>click me</button>
     </div>
   );
-}
+};
 
 export default App;
